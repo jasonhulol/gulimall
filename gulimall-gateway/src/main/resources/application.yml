@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: gulimall-gateway
+  cloud:
+    gateway:
+      routes:
+#        - id: test_route
+#          uri: https://www.bilibili.com
+#          predicates:
+#            - Query=url,google
+#
+#        - id: qq_route
+#          uri: https://www.qq.com
+#          predicates:
+#            - Query=url,qq
+        - id: product_route
+          uri: lb://gulimall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: thirdparty_route
+          uri: lb://gulimall-thirdparty
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
+
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+
+      ## 前端项目，/api
+      ## http://localhost:88/api/captcha.jpg  --> http://localhost:8080/renren-fast/captcha.jpg
+    nacos:
+      discovery:
+        server-addr: 192.168.56.20:8848

@@ -1,6 +1,7 @@
 package com.bootstudy.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.atguigu.common.utils.PageUtils;
@@ -42,6 +43,16 @@ public class CategoryController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 列表
+     */
+    @RequestMapping("/list/tree")
+    //@RequiresPermissions("product:category:list")
+    public R listWithTree(){
+        List<CategoryEntity> res = categoryService.listWithTree();
+        return R.ok().put("page", res);
+    }
+
 
     /**
      * 信息
@@ -77,12 +88,28 @@ public class CategoryController {
     }
 
     /**
+     * 修改
+     */
+    @RequestMapping("/update/sort")
+    //@RequiresPermissions("product:category:update")
+    public R updateSort(@RequestBody CategoryEntity[] category){
+        categoryService.updateBatchById(Arrays.asList(category));
+
+        return R.ok();
+    }
+
+    /**
      * 删除
+     * @RequestBody： 获取请求体，必须发送POST请求
+     * SpringMVC自动将请求体的数据（json)，转为对应的对象
      */
     @RequestMapping("/delete")
     //@RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Long[] catIds){
 		categoryService.removeByIds(Arrays.asList(catIds));
+
+        //TODO 1.检查当前删除的菜单，是否被别的地方引用
+        //categoryService.removeMenuByIds(List<Long> asList);
 
         return R.ok();
     }
