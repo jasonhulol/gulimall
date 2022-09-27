@@ -9,12 +9,12 @@ spring:
       discovery:
         server-addr: 192.168.56.20:8848
     alicloud:
-      access-key: LTAI5tELBEtmbzUNbXM9DseX
-      secret-key: uF6Bss6iXAjJ2PmqFRtqEudAP69Nbl
+      access-key: test
+      secret-key: test
       oss:
-        endpoint: oss-cn-beijing.aliyuncs.com
+        endpoint: test
   application:
-    name: gulimall-product
+    name: test
 
 # MapperScan
 # sql映射文件位置

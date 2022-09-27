@@ -4,11 +4,11 @@ spring:
       discovery:
         server-addr: 192.168.56.20:8848
     alicloud:
-      access-key: LTAI5tELBEtmbzUNbXM9DseX
-      secret-key: uF6Bss6iXAjJ2PmqFRtqEudAP69Nbl
+      access-key: test
+      secret-key: test
       oss:
-        endpoint: oss-cn-beijing.aliyuncs.com
-        bucket: arronmall-oss
+        endpoint: test
+        bucket: test
 
   application:
     name: gulimall-thirdparty
