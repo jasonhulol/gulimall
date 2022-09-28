@@ -14,7 +14,7 @@ spring:
       oss:
         endpoint: test
   application:
-    name: test
+    name: gulimall-product
 
 # MapperScan
 # sql映射文件位置
