@@ -2,8 +2,13 @@ package com.bootstudy.gulimall.product.service.impl;
 
 import com.atguigu.common.utils.PageUtils;
 import com.atguigu.common.utils.Query;
+import com.bootstudy.gulimall.product.service.CategoryBrandRelationService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,6 +23,9 @@ import com.bootstudy.gulimall.product.service.CategoryService;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -50,6 +58,30 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public void removeMenuByIds(List<Long> asList) {
         //TODO 1.检查当前删除的菜单，是否被别的地方引用
         baseMapper.deleteBatchIds(asList);
+    }
+
+    @Override
+    public Long[] findCatelogPath(Long catalogId) {
+        List<Long> paths = new ArrayList<>();
+        this.findCatelogPath(catalogId,paths);
+        Collections.reverse(paths);
+        return paths.toArray(new Long[paths.size()]);
+    }
+
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        if (!StringUtils.isEmpty(category.getName())) {
+            categoryBrandRelationService.updateCatDetail(category.getCatId(), category.getName());
+        }
+    }
+
+    private void findCatelogPath(Long catalogPath,List<Long> paths) {
+        paths.add(catalogPath);
+        CategoryEntity category = this.getById(catalogPath);
+        if (category.getParentCid() != 0) {
+            this.findCatelogPath(category.getParentCid(), paths);
+        }
     }
 
     public List<CategoryEntity> getAllChildren(CategoryEntity root, List<CategoryEntity> all) {
