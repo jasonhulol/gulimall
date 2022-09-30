@@ -10,6 +10,9 @@ spring:
         server-addr: 192.168.56.20:8848
   application:
     name: gulimall-ware
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
 
 # MapperScan
 # sql映射文件位置
@@ -20,3 +23,7 @@ mybatis-plus:
       id-type: auto
 server:
   port: 10000
+
+logging:
+  level:
+    com.bootstudy.gulimall: debug

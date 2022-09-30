@@ -1,7 +1,11 @@
 package com.bootstudy.gulimall.member.feign;
 
+import com.atguigu.common.to.SkuReductionTo;
+import com.atguigu.common.to.SpuBoundTo;
 import com.atguigu.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -14,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface CouponFeignService {
 
     @RequestMapping("/coupon/coupon/member/list")
-    public R membercoupons();
+    R membercoupons();
 
+    @PostMapping("/coupon/spubounds/save")
+    R saveSpuBounds(@RequestBody SpuBoundTo spuBoundTo);
+
+    @PostMapping("/coupon/skufullreduction/saveSkuReduction")
+    R saveSkuReduction(@RequestBody SkuReductionTo skuReductionTo);
 }

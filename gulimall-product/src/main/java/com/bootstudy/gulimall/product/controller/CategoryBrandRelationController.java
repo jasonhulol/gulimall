@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.atguigu.common.utils.PageUtils;
 import com.atguigu.common.utils.R;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.bootstudy.gulimall.product.entity.BrandEntity;
+import com.bootstudy.gulimall.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +32,25 @@ import com.bootstudy.gulimall.product.service.CategoryBrandRelationService;
 public class CategoryBrandRelationController {
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+
+    /**
+     * @param catId
+     * @return
+     * 1.Controller:处理请求，接受和校验参数
+     * 2.Service接受Controller传过来的数据，进行业务处理
+     * 3.Controller接受Service处理完的数据，封装页面指定vo
+     */
+    @GetMapping("/brands/list")
+    public R relationBrandList(@RequestParam(value = "catId",required = true) Long catId) {
+        List<BrandEntity> brandEntities = categoryBrandRelationService.getBrandsByCatId(catId);
+        List<BrandVo> voList = brandEntities.stream().map((item) -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(item.getBrandId());
+            brandVo.setBrandName(item.getName());
+            return brandVo;
+        }).collect(Collectors.toList());
+        return R.ok().put("data", voList);
+    }
 
     /**
      * 列表

@@ -6,9 +6,15 @@ import com.bootstudy.gulimall.product.dao.BrandDao;
 import com.bootstudy.gulimall.product.dao.CategoryDao;
 import com.bootstudy.gulimall.product.entity.BrandEntity;
 import com.bootstudy.gulimall.product.entity.CategoryEntity;
+import com.bootstudy.gulimall.product.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -25,6 +31,10 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     BrandDao brandDao;
     @Autowired
     CategoryDao categoryDao;
+    @Autowired
+    CategoryBrandRelationDao brandRelationDao;
+    @Autowired
+    BrandService brandService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -59,5 +69,19 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Override
     public void updateCatDetail(Long catId, String catName) {
         this.baseMapper.updateCategory(catId,catName);
+    }
+
+    @Override
+    public List<BrandEntity> getBrandsByCatId(Long catId) {
+        List<CategoryBrandRelationEntity> entities = brandRelationDao.selectList(new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
+        if (Objects.nonNull(entities) && entities.size() > 0) {
+            List<BrandEntity> brands = entities.stream().map((item) -> {
+                Long id = item.getBrandId();
+                BrandEntity byId = brandService.getById(id);
+                return byId;
+            }).collect(Collectors.toList());
+            return brands;
+        }
+        return null;
     }
 }
