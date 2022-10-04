@@ -3,6 +3,7 @@ package com.bootstudy.gulimall.product.service;
 import com.atguigu.common.utils.PageUtils;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bootstudy.gulimall.product.entity.CategoryEntity;
+import com.bootstudy.gulimall.product.vo.Catelog2Vo;
 
 import java.util.List;
 import java.util.Map;
@@ -25,5 +26,9 @@ public interface CategoryService extends IService<CategoryEntity> {
     Long[] findCatelogPath(Long catalogId);
 
     void updateCascade(CategoryEntity category);
+
+    Map<String, List<Catelog2Vo>> getCatelogJson() throws InterruptedException;
+
+    List<CategoryEntity> getLevel1Categorys();
 }
 

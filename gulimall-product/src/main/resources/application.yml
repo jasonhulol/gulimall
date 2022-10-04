@@ -15,6 +15,14 @@ spring:
         endpoint: test
   application:
     name: gulimall-product
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  thymeleaf:
+    cache: true
+  redis:
+    host: 192.168.56.20
+    port: 6379
 
 # MapperScan
 # sql映射文件位置

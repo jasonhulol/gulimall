@@ -6,11 +6,16 @@ import com.bootstudy.gulimall.product.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * 1.引入oss-starter
@@ -25,6 +30,23 @@ public class GulimalProductApplicationTests {
     BrandService brandService;
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    RedissonClient redissonClient;
+
+    @Test
+    public void testRedisson(){
+        System.out.println(redissonClient);
+    }
+
+    @Test
+    public void testStringRedisTemplate(){
+        ValueOperations<String, String> forValue = stringRedisTemplate.opsForValue();
+        forValue.set("hello","world_" + UUID.randomUUID().toString());
+        String hello = forValue.get("hello");
+        System.out.println(hello);
+    }
 
     @Test
     public void getCatePath() {

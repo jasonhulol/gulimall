@@ -33,6 +33,8 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
     PurchaseDetailService detailService;
     @Autowired
     WareSkuService wareSkuService;
+    @Autowired
+    PurchaseDao purchaseDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

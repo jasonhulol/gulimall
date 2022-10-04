@@ -2,7 +2,7 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://192.168.56.20:3306/gulimall_wms
+    url: jdbc:mysql://192.168.56.20:3306/gulimall_wms?createDatabaseIfNotExist=true&useSSL=false&characterEncoding=UTF-8
     driver-class-name: com.mysql.jdbc.Driver
   cloud:
     nacos:
@@ -12,6 +12,7 @@ spring:
     name: gulimall-ware
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 
 
 # MapperScan
@@ -22,7 +23,7 @@ mybatis-plus:
     db-config:
       id-type: auto
 server:
-  port: 10000
+  port: 10001
 
 logging:
   level:

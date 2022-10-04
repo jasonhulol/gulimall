@@ -46,6 +46,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     CategoryDao categoryDao;
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    AttrDao attrDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -220,6 +222,11 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
         return pageUtils;
 
+    }
+
+    @Override
+    public List<Long> selectSearchableBaseAttrs(List<Long> attrs) {
+        return attrDao.selectSearchableBaseAttrs(attrs);
     }
 
     /**
